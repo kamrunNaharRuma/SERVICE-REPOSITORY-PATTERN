@@ -4,5 +4,7 @@ namespace App\FileUploadPath;
 
 class userTypeConstant
 {
-    const DEFAULT_USER_TYPE = 'user';
+    const USER_TYPE_ID_FOR_USERS = 2; //for user
+    const USER_TYPE_ID_FOR_ADMINS = 1; //for admin
+
 }
