@@ -19,4 +19,9 @@ class AuthController extends Controller
             'user_type_id' => UserTypeConstant::USER_TYPE_ID_FOR_USERS,
         ]);
     }
+
+
+    public function login(Request $request)
+    {
+    }
 }
