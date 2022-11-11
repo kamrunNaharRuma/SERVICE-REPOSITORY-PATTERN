@@ -30,6 +30,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('store-update-delete-category', function (User $user) {
             return $user->user_type_id === UserTypeConstant::USER_TYPE_ID_FOR_ADMINS;
         });
+        Gate::define('store-update-delete-product', function (User $user) {
+            return $user->user_type_id === UserTypeConstant::USER_TYPE_ID_FOR_ADMINS;
+        });
         //
     }
 }
