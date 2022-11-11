@@ -9,7 +9,7 @@ class ApiResponse
     private $statusCode;
     private $isSuccessful;
 
-    public function __construct(string $message, $data = null, $statusCode, $isSuccessful)
+    public function __construct(string $message, $data, $statusCode, $isSuccessful)
     {
         $this->data         = $data;
         $this->message      = $message;
