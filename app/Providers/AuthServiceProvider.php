@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Constants\UserTypeConstant;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,6 +27,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Gate::define('store-update-delete-category', function (User $user) {
+            return $user->user_type_id === UserTypeConstant::USER_TYPE_ID_FOR_ADMINS;
+        });
         //
     }
 }
