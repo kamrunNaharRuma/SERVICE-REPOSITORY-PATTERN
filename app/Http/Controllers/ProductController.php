@@ -39,7 +39,12 @@ class ProductController extends Controller
     }
     public function index()
     {
-        //
+        try {
+            $products = $this->product->all();
+            return (new ApiResponse('Product List', $products, Response::HTTP_OK, true))->getPayload();
+        } catch (\Exception $e) {
+            throw new ApiException($e->getMessage());
+        }
     }
 
     /**
