@@ -13,4 +13,20 @@ class Product extends Model
         'slug',
         'price'
     ];
+    public function productCategory()
+    {
+        return $this->hasMany(ProductCategory::class);
+    }
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+    public function availableColors()
+    {
+        return $this->hasMany(ProductColor::class);
+    }
+    public function availableSizes()
+    {
+        return $this->hasMany(ProductSize::class);
+    }
 }

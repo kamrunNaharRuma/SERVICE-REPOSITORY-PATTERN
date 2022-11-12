@@ -16,7 +16,12 @@ class ProductRepositoryImplementation implements ProductRepositoryInterface
 
     public function all()
     {
-        return $this->product->get();
+        return $this->product->with(
+            'productCategory.category.primaryCategory',
+            'images',
+            'availableColors.color',
+            'availableSizes.size'
+        )->get();
     }
 
 
