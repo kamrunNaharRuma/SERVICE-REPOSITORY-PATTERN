@@ -15,6 +15,7 @@ class ProductCategoryRepositoryImplementation implements ProductCategoryReposito
 
     public function store(array $categoryIds, int $productId)
     {
+        $this->deleteDuplicateProductCategory($productId);
         foreach ($categoryIds as $categoryId) {
             $this->productCategory->create([
                 "product_id" => $productId,
@@ -22,5 +23,9 @@ class ProductCategoryRepositoryImplementation implements ProductCategoryReposito
             ]);
         }
         return true;
+    }
+    private function deleteDuplicateProductCategory($productId)
+    {
+        return $this->productCategory->where('product_id', $productId)->delete();
     }
 }

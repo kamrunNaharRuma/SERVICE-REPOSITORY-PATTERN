@@ -37,7 +37,7 @@ class ProductRepositoryImplementation implements ProductRepositoryInterface
 
     public function delete($id)
     {
-        return $this->product->delete($id);
+        return $this->product->where('id', $id)->delete();
     }
 
     public function edit($id)
@@ -47,6 +47,14 @@ class ProductRepositoryImplementation implements ProductRepositoryInterface
 
     public function update(array $data, $product)
     {
-        return $this->product->where('id', $product->id)->update($data);
+
+        $dataToUpdate = [
+            "name" => isset($data["name"]) ? $data["name"] : $product["name"],
+            "slug" => isset($data["slug"]) ? $data["slug"] : $product["slug"],
+            "price" => isset($data["price"]) ? $data["price"] : $product["price"]
+        ];
+        return $this->product
+            ->where('id', $product->id)
+            ->update($dataToUpdate);
     }
 }

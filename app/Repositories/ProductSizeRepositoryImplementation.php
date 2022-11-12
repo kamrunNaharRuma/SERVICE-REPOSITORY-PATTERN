@@ -15,6 +15,7 @@ class ProductSizeRepositoryImplementation implements ProductSizeRepositoryInterf
 
     public function store(array $sizeIds, int $productId)
     {
+        $this->deleteDuplicateProductSize($productId);
         foreach ($sizeIds as $sizeId) {
             $this->productSize->create([
                 "product_id" => $productId,
@@ -22,5 +23,9 @@ class ProductSizeRepositoryImplementation implements ProductSizeRepositoryInterf
             ]);
         }
         return true;
+    }
+    private function deleteDuplicateProductSize($productId)
+    {
+        return $this->productSize->where('product_id', $productId)->delete();
     }
 }

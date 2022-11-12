@@ -15,5 +15,5 @@ interface ProductServiceInterface
 
     public function edit($id);
 
-    public function update(array $data, Product $category);
+    public function update(array $data, Product $product);
 }
