@@ -27,7 +27,7 @@ class CategoryRepositoryImplementation implements CategoryRepositoryInterface
 
     public function delete($id)
     {
-        return $this->category->delete($id);
+        return $this->category->where('id', $id)->delete();
     }
 
     public function edit($id)
