@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductStoreRequest;
 use App\Http\Responses\ApiException;
 use App\Http\Responses\ApiResponse;
 use App\Services\ProductCategoryServiceInterface;
@@ -53,28 +54,17 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        if (!Gate::allows('store-update-delete-product', Auth::user())) {
-            abort(403);
-        }
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'slug' => 'required',
-            'price' => 'required|integer',
-            'color_id' => 'array',
-            'size_id' => 'array',
-            'category_id' => 'required|array',
-        ]);
-
-        $validatedData['slug'] = Str::slug($validatedData['slug'], '-');
+        $requestData = $request->all();
+        $requestData['slug'] = Str::slug($requestData['slug'], '-');
 
         DB::beginTransaction();
         try {
-            $product = $this->product->store($validatedData);
-            $this->productSize->store($validatedData['size_id'], $product->id);
-            $this->productColor->store($validatedData['color_id'], $product->id);
-            $this->productCategory->store($validatedData['category_id'], $product->id);
+            $product = $this->product->store($requestData);
+            $this->productSize->store($requestData['size_id'], $product->id);
+            $this->productColor->store($requestData['color_id'], $product->id);
+            $this->productCategory->store($requestData['category_id'], $product->id);
             DB::commit();
             return (new ApiResponse('product stored successfully', $product, Response::HTTP_CREATED, true))->getPayload();
         } catch (\Exception $e) {
