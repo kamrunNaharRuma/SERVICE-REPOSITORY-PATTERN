@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryCreateRequest;
 use App\Http\Responses\ApiException;
 use App\Http\Responses\ApiResponse;
 use App\Models\Category;
@@ -30,14 +31,8 @@ class CategoryController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(CategoryCreateRequest $request)
     {
-        if (!Gate::allows('store-update-delete-category', Auth::user())) {
-            abort(403); //Only admin user can create category
-        }
-        $request->validate([
-            'type' => 'required',
-        ]);
         try {
             $category = $this->category->store($request->all());
             return (new ApiResponse('Category stored successfully', $category, Response::HTTP_CREATED, true))->getPayload();
