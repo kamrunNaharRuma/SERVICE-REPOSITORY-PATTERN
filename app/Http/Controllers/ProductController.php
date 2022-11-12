@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Responses\ApiException;
 use App\Http\Responses\ApiResponse;
+use App\Models\Product;
 use App\UtilityClasses\NotifyUser;
 use App\Services\ProductCategoryServiceInterface;
 use App\Services\ProductColorServiceInterface;
@@ -12,7 +14,9 @@ use App\Services\ProductImageServiceInterface;
 use App\Services\ProductServiceInterface;
 use App\Services\ProductSizeServiceInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Str;
 
@@ -113,9 +117,27 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductUpdateRequest $request, Product $product)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $updatedProduct = $this->product->update($request->all(), $product);
+            if (isset($request['category_id'])) {
+                $this->productCategory->store($request['category_id'], $product->id);
+            }
+
+            if (isset($request['size_id'])) {
+                $this->productSize->store($request['size_id'], $product->id);
+            }
+            if (isset($request['color_id'])) {
+                $this->productColor->store($request['color_id'], $product->id);
+            }
+            DB::commit();
+            return (new ApiResponse('Product updated successfully', $updatedProduct, Response::HTTP_OK, true))->getPayload();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw new ApiException($e->getMessage());
+        }
     }
 
     /**
@@ -126,6 +148,14 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (!Gate::allows('store-update-delete-product', Auth::user())) {
+            abort(403); //Only admin user can create category
+        }
+        try {
+            $product = $this->product->delete($id);
+            return (new ApiResponse('product deleted successfully', $product, Response::HTTP_OK, true))->getPayload();
+        } catch (\Exception $e) {
+            throw new ApiException($e->getMessage());
+        }
     }
 }
