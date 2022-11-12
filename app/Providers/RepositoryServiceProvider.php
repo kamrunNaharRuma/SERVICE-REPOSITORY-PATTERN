@@ -21,6 +21,22 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\CategoryRepositoryInterface',
             'App\Repositories\CategoryRepositoryImplementation'
         );
+        $this->app->bind(
+            'App\Services\ProductServiceInterface',
+            'App\Services\ProductServiceImplementation'
+        );
+        $this->app->bind(
+            'App\Repositories\ProductRepositoryInterface',
+            'App\Repositories\ProductRepositoryImplementation'
+        );
+        $this->app->bind(
+            'App\Services\ProductSizeServiceInterface',
+            'App\Services\ProductSizeServiceImplementation'
+        );
+        $this->app->bind(
+            'App\Repositories\ProductSizeRepositoryInterface',
+            'App\Repositories\ProductSizeRepositoryImplementation'
+        );
     }
 
     /**
