@@ -16,7 +16,7 @@ class ProductCategoryRepositoryImplementation implements ProductCategoryReposito
     public function store(array $categoryIds, int $productId)
     {
         foreach ($categoryIds as $categoryId) {
-            $this->productcategory->create([
+            $this->productCategory->create([
                 "product_id" => $productId,
                 "category_id" => intval($categoryId),
             ]);
