@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-interface ProductSizeServiceInterface
+interface ProductImageServiceInterface
 {
-    public function store(array $sizeIds, int $productId);
+    public function store(array $images, int $productId);
 }

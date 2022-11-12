@@ -2,19 +2,19 @@
 
 namespace App\Services;
 
-use App\Repositories\ProductSizeRepositoryInterface;
+use App\Repositories\ProductImageRepositoryInterface;
 
-class ProductSizeServiceImplementation implements ProductSizeServiceInterface
+class ProductImageServiceImplementation implements ProductImageServiceInterface
 {
 
-    private $productSize;/*  */
-    public function __construct(ProductSizeRepositoryInterface $productSize)
+    private $productImage;/*  */
+    public function __construct(ProductImageRepositoryInterface $productImage)
     {
-        $this->productSize = $productSize;
+        $this->productImage = $productImage;
     }
 
-    public function store(array $sizeIds, int $productId)
+    public function store(array $images, int $productId)
     {
-        return $this->productSize->store($sizeIds, $productId);
+        return $this->productImage->store($images, $productId);
     }
 }

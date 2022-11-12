@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-interface ProductSizeRepositoryInterface
+interface ProductImageRepositoryInterface
 {
-    public function store(array $sizeIds, int $productId);
+    public function store(array $imageIds, int $productId);
 }

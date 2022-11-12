@@ -2,23 +2,25 @@
 
 namespace App\Repositories;
 
-use App\Models\ProductSize;
+use App\Models\ProductImage;
 
-class ProductSizeRepositoryImplementation implements ProductSizeRepositoryInterface
+class ProductImageRepositoryImplementation implements ProductImageRepositoryInterface
 {
 
-    private $productSize;/*  */
-    public function __construct(ProductSize $productSize)
+    private $productImage;/*  */
+    public function __construct(ProductImage $productImage)
     {
-        $this->productSize = $productSize;
+        $this->productImage = $productImage;
     }
 
-    public function store(array $sizeIds, int $productId)
+    public function store(array $images, int $productId)
     {
-        foreach ($sizeIds as $sizeId) {
-            $this->productSize->create([
+        foreach ($images as $image) {
+            $name = time() . $image->getClientOriginalName();
+            $image->move(public_path('productImages'), $name);
+            $this->productImage->create([
                 "product_id" => $productId,
-                "size_id" => intval($sizeId),
+                "path" => public_path('productImages') . $name,
             ]);
         }
         return true;
