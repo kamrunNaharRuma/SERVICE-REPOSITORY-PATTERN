@@ -44,10 +44,10 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         if (!Gate::allows('store-update-delete-category', Auth::user())) {
-            abort(403); //Only admin user can create category
+            abort(403);
         }
         try {
-            $category = $this->category->update($request->all(), $category);
+            $category = $this->category->update($request->all(), $category->id);
             return (new ApiResponse('Category updated successfully', $category, Response::HTTP_OK, true))->getPayload();
         } catch (\Exception $e) {
             throw new ApiException($e->getMessage());

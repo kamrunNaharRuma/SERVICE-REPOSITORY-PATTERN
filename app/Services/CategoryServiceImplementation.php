@@ -35,8 +35,8 @@ class CategoryServiceImplementation implements CategoryServiceInterface
         return $this->category->edit($id);
     }
 
-    public function update(array $data, Category $category)
+    public function update(array $data, int $categoryId)
     {
-        return $this->category->update($data, $category);
+        return $this->category->update($data, $categoryId);
     }
 }

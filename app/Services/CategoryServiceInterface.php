@@ -15,5 +15,5 @@ interface CategoryServiceInterface
 
     public function edit($id);
 
-    public function update(array $data, Category $category);
+    public function update(array $data, int $categoryId);
 }

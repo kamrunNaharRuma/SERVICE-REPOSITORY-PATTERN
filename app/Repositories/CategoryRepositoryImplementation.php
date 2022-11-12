@@ -16,7 +16,7 @@ class CategoryRepositoryImplementation implements CategoryRepositoryInterface
 
     public function all()
     {
-        return $this->category->get();
+        return $this->category->with('primaryCategory')->get();
     }
 
 
@@ -35,8 +35,8 @@ class CategoryRepositoryImplementation implements CategoryRepositoryInterface
         return $this->category->edit($id);
     }
 
-    public function update(array $data, $category)
+    public function update(array $data, $categoryId)
     {
-        return $this->category->where('id', $category->id)->update($data);
+        return $this->category->where('id', $categoryId)->update($data);
     }
 }
