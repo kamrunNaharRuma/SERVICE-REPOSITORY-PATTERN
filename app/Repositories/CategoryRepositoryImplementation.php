@@ -22,7 +22,7 @@ class CategoryRepositoryImplementation implements CategoryRepositoryInterface
 
     public function store(array $data)
     {
-        return $this->category->insert([...$data, "created_at" => now()]);
+        return $this->category->create($data);
     }
 
     public function delete($id)

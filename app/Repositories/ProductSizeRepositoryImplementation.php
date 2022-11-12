@@ -16,7 +16,7 @@ class ProductSizeRepositoryImplementation implements ProductSizeRepositoryInterf
     public function store(array $sizeIds, int $productId)
     {
         foreach ($sizeIds as $sizeId) {
-            $this->productSize->insert([
+            $this->productSize->create([
                 "product_id" => $productId,
                 "size_id" => intval($sizeId),
             ]);
