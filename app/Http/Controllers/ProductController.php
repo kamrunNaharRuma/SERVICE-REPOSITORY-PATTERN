@@ -119,6 +119,7 @@ class ProductController extends Controller
      */
     public function update(ProductUpdateRequest $request, Product $product)
     {
+
         try {
             DB::beginTransaction();
             $updatedProduct = $this->product->update($request->all(), $product);
@@ -149,7 +150,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         if (!Gate::allows('store-update-delete-product', Auth::user())) {
-            abort(403); //Only admin user can create category
+            abort(403); //Only admin user can dlete poduct
         }
         try {
             $product = $this->product->delete($id);
