@@ -45,6 +45,14 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\ProductColorRepositoryInterface',
             'App\Repositories\ProductColorRepositoryImplementation'
         );
+        $this->app->bind(
+            'App\Services\ProductCategoryServiceInterface',
+            'App\Services\ProductCategoryServiceImplementation'
+        );
+        $this->app->bind(
+            'App\Repositories\ProductCategoryRepositoryInterface',
+            'App\Repositories\ProductCategoryRepositoryImplementation'
+        );
     }
 
     /**
