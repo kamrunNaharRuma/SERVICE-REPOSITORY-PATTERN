@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Responses\ApiException;
 use App\Http\Responses\ApiResponse;
+use App\Services\ProductCategoryServiceInterface;
+use App\Services\ProductColorServiceInterface;
 use App\Services\ProductServiceInterface;
 use App\Services\ProductSizeServiceInterface;
 use Illuminate\Http\Request;
@@ -17,12 +19,18 @@ class ProductController extends Controller
 {
     private $product;
     private $productSize;
+    private $productColor;
+    private $productCategory;
     public function __construct(
         ProductServiceInterface $product,
-        ProductSizeServiceInterface $productSize
+        ProductSizeServiceInterface $productSize,
+        ProductColorServiceInterface $productColor,
+        ProductCategoryServiceInterface $productCategory
     ) {
         $this->product = $product;
         $this->productSize = $productSize;
+        $this->productColor = $productColor;
+        $this->productCategory = $productCategory;
     }
     public function index()
     {
@@ -65,7 +73,8 @@ class ProductController extends Controller
         try {
             $product = $this->product->store($validatedData);
             $this->productSize->store($validatedData['size_id'], $product->id);
-            $this->productSize->store($validatedData['size_id'], $product->id);
+            $this->productColor->store($validatedData['color_id'], $product->id);
+            $this->productCategory->store($validatedData['category_id'], $product->id);
             DB::commit();
             return (new ApiResponse('product stored successfully', $product, Response::HTTP_CREATED, true))->getPayload();
         } catch (\Exception $e) {
