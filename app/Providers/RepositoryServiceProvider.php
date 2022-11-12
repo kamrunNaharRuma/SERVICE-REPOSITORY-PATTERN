@@ -53,6 +53,14 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\ProductCategoryRepositoryInterface',
             'App\Repositories\ProductCategoryRepositoryImplementation'
         );
+        $this->app->bind(
+            'App\Services\ProductImageServiceInterface',
+            'App\Services\ProductImageServiceImplementation'
+        );
+        $this->app->bind(
+            'App\Repositories\ProductImageRepositoryInterface',
+            'App\Repositories\ProductImageRepositoryImplementation'
+        );
     }
 
     /**
