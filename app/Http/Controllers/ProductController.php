@@ -5,16 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Responses\ApiException;
 use App\Http\Responses\ApiResponse;
-use App\Models\ProductImage;
+use App\UtilityClasses\NotifyUser;
 use App\Services\ProductCategoryServiceInterface;
 use App\Services\ProductColorServiceInterface;
 use App\Services\ProductImageServiceInterface;
 use App\Services\ProductServiceInterface;
 use App\Services\ProductSizeServiceInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Str;
 
@@ -72,6 +70,7 @@ class ProductController extends Controller
             $this->productColor->store($requestData['color_id'], $product->id);
             $this->productCategory->store($requestData['category_id'], $product->id);
             $this->productImage->store($requestData['image'], $product->id);
+            (new NotifyUser)->notifyUserForNewProduct($product);
             DB::commit();
             return (new ApiResponse('product stored successfully', $product, Response::HTTP_CREATED, true))->getPayload();
         } catch (\Exception $e) {
